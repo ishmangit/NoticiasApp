@@ -17,9 +17,30 @@ export class Tab1Page implements OnInit {
   }
 
   ngOnInit() {
+    this.cargarNoticias();
+  }
+
+  cargarNoticias(event?) {
     this.noticiasService.getTopHeadlines()
       .subscribe(resp => {
-      this.noticias.push(...resp.articles);
-    });
+
+        if (resp.articles.length === 0) {
+          event.target.disabled = true;
+          event.target.complete();
+          return;
+        }
+
+        this.noticias.push(...resp.articles);
+
+        // Ha sido llamado desde el loadData por lo que hay que completar el infiniteScroll
+        if (event) {
+          event.target.complete();
+        }
+      });
+
+  }
+
+  loadData(event) {
+    this.cargarNoticias(event);
   }
 }
