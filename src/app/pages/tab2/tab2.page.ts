@@ -13,6 +13,8 @@ export class Tab2Page implements OnInit {
 
   @ViewChild(IonSegment) segment: IonSegment;
 
+  // TODO: Mejorar la paginación estableciendo una variable página por categoria
+
   categorias = ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology'];
   noticias: Article[] = [];
 
@@ -24,15 +26,30 @@ export class Tab2Page implements OnInit {
     this.cargarNoticias(this.segment.value);
   }
 
-  cargarNoticias(categoria: string) {
+  cargarNoticias(categoria: string, event?) {
     this.noticiasService.getTopHeadlinesCategoria(categoria)
       .subscribe(resp => {
+
+        if (resp.articles.length === 0) {
+          event.target.disabled = true;
+          event.target.complete();
+          return;
+        }
+
         this.noticias.push(...resp.articles);
+
+        if (event) {
+          event.target.complete();
+        }
       });
   }
 
   cambioCategoria(event) {
     this.noticias = [];
     this.cargarNoticias(event.detail.value);
+  }
+
+  loadData(event) {
+    this.cargarNoticias(this.segment.value, event);
   }
 }
