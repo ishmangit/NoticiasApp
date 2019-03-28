@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { IonicStorageModule } from '@ionic/storage';
 import { NgModule } from '@angular/core';
 import { RouteReuseStrategy } from '@angular/router';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
@@ -18,7 +19,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
     StatusBar,
